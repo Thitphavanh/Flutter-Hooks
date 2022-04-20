@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 extension CompactMap<T> on Iterable<T?> {
@@ -42,23 +39,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class CountDown extends ValueNotifier<int> {
-  late StreamSubscription sub;
+const url = 'https://bit.ly/3x7J5Qt';
+const imageHeight = 300.0;
 
-  CountDown({required int from}) : super(from) {
-    sub = Stream.periodic(
-      const Duration(seconds: 1),
-      (v) => from - v,
-    ).takeWhile((value) => value >= 0).listen((value) {
-      this.value = value;
-    });
-  }
-
-  @override
-  void dispose() {
-    sub.cancel();
-    super.dispose();
-  }
+extension Normalize on num {
+  num normalized(
+    num selfRangeMin,
+    num selfRangeMax, [
+    num normalizedRangeMin = 0.0,
+    num normalizedRangeMax = 1.0,
+  ]) =>
+      (normalizedRangeMax - normalizedRangeMin) *
+          ((this - selfRangeMin) / (selfRangeMax - selfRangeMin)) +
+      normalizedRangeMin;
 }
 
 class HomePage extends HookWidget {
@@ -66,15 +59,9 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final countDown = useMemoized(() => CountDown(from: 20));
-    final notifier = useListenable(countDown);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
-      ),
-      body: Text(
-        notifier.value.toString(),
       ),
     );
   }
