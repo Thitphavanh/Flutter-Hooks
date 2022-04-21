@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_react_hooks/screen_page.dart';
 import 'home_page.dart';
 
 void main() {
@@ -9,7 +10,7 @@ void main() {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const ScreenPage(),
     ),
   );
 }
